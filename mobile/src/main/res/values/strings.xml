@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GYAndroidWearDemo</string>
+    <string name="title_activity_notification_result">NotificationResultActivity</string>
+    <string name="title">Yasin Kafadar</string>
+    <string name="content">Akşam maça geliyor musun?</string>
+    <string name="show_notification">Show Notification</string>
+    <string name="large_icon">Show Notification With Large Icon</string>
+    <string name="weather_title">Hava Durumu</string>
+    <string name="weather_content">Bugün hava açık görünüyor.</string>
+    <string name="title_activity_notification_reply">NotificationReplyActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="send">Gönder</string>
+    <string name="reply">Cevapla</string>
+    <string name="remove">Sil</string>
+    <string name="wear_only_action">Show Wear Action</string>
+    <string name="big_text_content">Galatasaray fener maçı bu akşam Arena da oynanacak. Maçı Cüneyt Çakır yönetecek. Hava futbola elverişli</string>
+    <string name="reply_title">Konuş bakalım...</string>
+
+    <string-array name="reply_choices">
+        <item>Evet</item>
+        <item>Hayır</item>
+        <item>Belki</item>
+    </string-array>
+
+</resources>
