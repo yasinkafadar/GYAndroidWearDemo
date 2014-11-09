@@ -19,12 +19,6 @@ public class NotificationReplyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_reply);
 
-        // Get an instance of the NotificationManager service
-        NotificationManagerCompat notificationManager =
-                NotificationManagerCompat.from(this);
-        int notifcationId = getIntent().getIntExtra(Constants.EXTRA_EVENT_ID, 1);
-        notificationManager.cancel(notifcationId);
-
         EditText edtReply = (EditText)findViewById(R.id.edt_reply);
         edtReply.setText(getMessageText(getIntent()));
     }

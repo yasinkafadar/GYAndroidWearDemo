@@ -4,7 +4,11 @@
     <string name="app_name">GYAndroidWearDemo</string>
     <string name="title_activity_notification_result">NotificationResultActivity</string>
     <string name="title">Yasin Kafadar</string>
+    <string name="title2">Ali Yıldız</string>
     <string name="content">Akşam maça geliyor musun?</string>
+    <string name="content2">Tabi ki gelicem olm bu maç için aldık kombineyi</string>
+    <string name="summary_title">2 yeni mesaj</string>
+    <string name="summary">kafadaryasin@gmail.com</string>
     <string name="show_notification">Show Notification</string>
     <string name="large_icon">Show Notification With Large Icon</string>
     <string name="weather_title">Hava Durumu</string>

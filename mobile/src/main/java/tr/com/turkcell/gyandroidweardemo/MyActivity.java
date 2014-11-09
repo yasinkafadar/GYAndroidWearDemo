@@ -1,8 +1,10 @@
 package tr.com.turkcell.gyandroidweardemo;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -50,30 +52,6 @@ public class MyActivity extends Activity {
         createGoogleApiClient();
     }
 
-    public void showNotification(View view){
-        int id = view.getId();
-        switch (id){
-            case R.id.btn_create_notification:
-                createNotification();
-                break;
-            case R.id.btn_create_notification_large_icon:
-                createNotificationWithLargeIcon();
-                break;
-            case R.id.btn_create_notification_with_action:
-                createNotificationWithAction();
-                break;
-            case R.id.btn_create_notification_wear_extender:
-                createNotificationWithWearAction();
-                break;
-            case R.id.btn_create_big_text:
-                createBigTextNotification();
-                break;
-            case R.id.btn_create_choice_notification:
-                createChoiceNotification();
-                break;
-        }
-    }
-
     // show classical notification only title and content with app icon
     private void createNotification() {
         int notificationId = 1;
@@ -113,7 +91,7 @@ public class MyActivity extends Activity {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setLargeIcon(BitmapFactory.decodeResource(
-                                getResources(), R.drawable.ic_sun)) // set large icon to show bg image on wear
+                                getResources(), R.drawable.ic_sun))
                         .setContentTitle(getString(R.string.weather_title))
                         .setContentText(getString(R.string.weather_content))
                         .setContentIntent(viewPendingIntent);
@@ -221,6 +199,103 @@ public class MyActivity extends Activity {
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
+    // adding pages to notification
+    private void addingPagesTotNotification() {
+        int notificationId = 7;
+        // Build intent for notification content
+        Intent viewIntent = new Intent(this, NotificationResultActivity.class);
+        viewIntent.putExtra(Constants.EXTRA_EVENT_ID, notificationId);
+        viewIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Create builder for the main notification
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setLargeIcon(BitmapFactory.decodeResource(
+                                getResources(), R.drawable.avatar))
+                        .setContentTitle(getString(R.string.title))
+                        .setContentText(getString(R.string.content))
+                        .setContentIntent(viewPendingIntent);
+
+        // Create a big text style for the second page
+        NotificationCompat.BigTextStyle secondPageStyle = new NotificationCompat.BigTextStyle();
+        secondPageStyle.bigText(getString(R.string.big_text_content));
+
+        // Create second page notification
+        Notification secondPageNotification = new NotificationCompat.Builder(this)
+                        .setStyle(secondPageStyle).build();
+
+        // Extend the notification builder with the second page
+        Notification notification = notificationBuilder
+                .extend(new NotificationCompat.WearableExtender().addPage(secondPageNotification))
+                .build();
+
+        // Get an instance of the NotificationManager service
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // Build the notification and issues it with notification manager.
+        notificationManager.notify(notificationId, notification);
+    }
+
+    private void showGroupedtNotification() {
+
+        String GROUP_KEY_MY_NOTIFICATION = "group_key_my_notifications";
+
+        int notificationId = 8;
+        int notificationId2 = 9;
+        int notificationId3 = 10;
+        // Build intent for notification content
+        Intent viewIntent = new Intent(this, NotificationResultActivity.class);
+        viewIntent.putExtra(Constants.EXTRA_EVENT_ID, notificationId);
+        viewIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Build the notification, setting the group appropriately
+        Notification notification = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.title))
+                .setContentText(getString(R.string.content))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setGroup(GROUP_KEY_MY_NOTIFICATION)
+                .setContentIntent(viewPendingIntent)
+                .build();
+
+        // Build the notification, setting the group appropriately
+        Notification notification2 = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.title2))
+                .setContentText(getString(R.string.content2))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setGroup(GROUP_KEY_MY_NOTIFICATION)
+                .setContentIntent(viewPendingIntent)
+                .build();
+
+        // Get an instance of the NotificationManager service
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationId, notification);
+        notificationManager.notify(notificationId2, notification2);
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.avatar);
+
+        // Create an InboxStyle notification
+        Notification summaryNotification = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.summary_title))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setLargeIcon(largeIcon)
+                .setStyle(new NotificationCompat.InboxStyle()
+                        .addLine(getString(R.string.title2) + " " + getString(R.string.content2))
+                        .addLine(getString(R.string.title) + " " + getString(R.string.content))
+                        .setBigContentTitle(getString(R.string.summary_title))
+                        .setSummaryText(getString(R.string.summary)))
+                .setGroup(GROUP_KEY_MY_NOTIFICATION)
+                .setGroupSummary(true)
+                .build();
+
+        notificationManager.notify(notificationId3, summaryNotification);
+    }
+
     private void createChoiceNotification() {
         int notificationId = 6;
         // Build intent for notification content
@@ -259,7 +334,7 @@ public class MyActivity extends Activity {
         notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
-    private void createGoogleApiClient(){
+    private void createGoogleApiClient() {
         mGoogleAppiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
@@ -285,7 +360,7 @@ public class MyActivity extends Activity {
                 .build();
     }
 
-    private void sendData(){
+    private void sendData() {
         PutDataMapRequest dataMap = PutDataMapRequest.create("/count");
         dataMap.getDataMap().putString("count_key", edtSendData.getText().toString());
         PutDataRequest request = dataMap.asPutDataRequest();
@@ -296,7 +371,7 @@ public class MyActivity extends Activity {
         pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
             @Override
             public void onResult(final DataApi.DataItemResult result) {
-                if(result.getStatus().isSuccess()) {
+                if (result.getStatus().isSuccess()) {
                     Log.d(TAG, "Data item set: " + result.getDataItem().getUri());
                 }
             }
@@ -319,5 +394,35 @@ public class MyActivity extends Activity {
     protected void onStop() {
         super.onStop();
         mGoogleAppiClient.disconnect();
+    }
+
+    public void showNotification(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.btn_create_notification:
+                createNotification();
+                break;
+            case R.id.btn_create_notification_large_icon:
+                createNotificationWithLargeIcon();
+                break;
+            case R.id.btn_create_notification_with_action:
+                createNotificationWithAction();
+                break;
+            case R.id.btn_create_notification_wear_extender:
+                createNotificationWithWearAction();
+                break;
+            case R.id.btn_create_big_text:
+                createBigTextNotification();
+                break;
+            case R.id.btn_adding_pages:
+                addingPagesTotNotification();
+                break;
+            case R.id.btn_show_group:
+                showGroupedtNotification();
+                break;
+            case R.id.btn_create_choice_notification:
+                createChoiceNotification();
+                break;
+        }
     }
 }

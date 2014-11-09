@@ -17,9 +17,6 @@ public class DataLayerListenerService extends WearableListenerService {
 
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
-
-        Log.d(TAG, "onDataChanged");
-
         for (DataEvent event : dataEvents) {
             if (event.getType() == DataEvent.TYPE_CHANGED &&
                     event.getDataItem().getUri().getPath().equals("/count")) {

@@ -46,6 +46,20 @@
         android:text="Create Big Text Notification"/>
 
     <Button
+        android:id="@+id/btn_adding_pages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showNotification"
+        android:text="Adding Pages To Notification"/>
+
+    <Button
+        android:id="@+id/btn_show_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showNotification"
+        android:text="Show Grouped Notification"/>
+
+    <Button
         android:id="@+id/btn_create_choice_notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
